@@ -5,7 +5,7 @@ const authRouter = Router();
 // Rutas de autenticación (post al form)
 
 authRouter.post('/sing-up', (req, res) => {
-    res.send({ title: 'Login' });
+    res.send({ title: 'Sing Up' });
 });
 
 authRouter.post('/sing-in', (req, res) => {
@@ -17,4 +17,4 @@ authRouter.post('/logout', (req, res) => {
 });
 
 export default authRouter;
-// Compare this snippet from routes/subscription.routes.js:
+

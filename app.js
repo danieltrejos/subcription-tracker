@@ -1,6 +1,9 @@
 import express from "express";
 import { PORT } from "./config/env.js";
 
+// Importar la conexión a la base de datos
+import connectToDatabase from "./database/mongodb.js";
+
 // Importar rutas
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
@@ -28,8 +31,11 @@ app.get("/health", (req, res) => {
   );
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server escuchando en el puerto http://localhost:${PORT}`);
+
+  // Conectar a la base de datos
+  await connectToDatabase();
 });
 
 export default app;
