@@ -1,5 +1,6 @@
 import express from "express";
 import { PORT } from "./config/env.js";
+import cookieParser from "cookie-parser";
 
 // Importar la conexión a la base de datos
 import connectToDatabase from "./database/mongodb.js";
@@ -8,6 +9,7 @@ import connectToDatabase from "./database/mongodb.js";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import subscriptionRouter from "./routes/subscription.routes.js";
+import errorMiddeleware from './middelwares/error.middelwares';
 
 // Crear una instancia de express para app
 const app = express();
@@ -19,10 +21,22 @@ app.get("/", (req, res) => {
   );
 });
 
+// Middleware para parsear JSON
+app.use(express.json());
+// Middleware para parsear URL encoded
+app.use(express.urlencoded({ extended: false }));
+// Middleware cookie parser
+app.use(cookieParser());
+
+
 // Añadir rutas a la app usando app.use a la ruta localhost:5500/api/v1/
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
+
+// Middleware para manejar errores
+app.use(errorMiddeleware);
+
 
 // Ruta para confirmar el estado
 app.get("/health", (req, res) => {
